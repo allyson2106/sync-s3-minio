@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: sync-cronjob
+spec:
+  schedule: "0 20 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: sync-container
+              image: <image-repository>:<image-tag>
+              envFrom:
+                - configMapRef:
+                    name: sync-configmap
+          restartPolicy: OnFailure
